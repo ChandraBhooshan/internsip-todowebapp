@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="nav">
+      <p id="nav-title">To-Do List Web App</p>
+    </div>
+    <hr />
+    <div class="main">
+      <div class="main-left">
+        <input type="text" id="input-box" placeholder="Title" />
+        <br />
+        <br />
+        <textarea
+          type="text"
+          name=""
+          id="desc-box"
+          cols="30"
+          rows="5"
+          value="desc"
+          placeholder="Description"
+        ></textarea>
+
+        <br />
+        <br />
+        <!-- <hr /> -->
+        <button type="submit" id="addBtn" onclick="addTask()">Save</button>
+        <!-- <hr /> -->
+      </div>
+
+      <div class="main-right">
+        <div id="list-header">
+          <p class="list-header-items" id="c1">Title</p>
+          <p class="list-header-items" id="c2">Description</p>
+          <p class="list-header-items" id="c3">Delete</p>
+        </div>
+        <hr />
+
+        <div class="items">
+          <ul id="list-container"></ul>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const inputBox = document.getElementById("input-box");
+      const descBox = document.getElementById("desc-box");
+      const listContainer = document.getElementById("list-container");
+
+      function addTask() {
+        if (inputBox.value === "") {
+          alert("You must write something.");
+        } else {
+          let li = document.createElement("li");
+          listContainer.appendChild(li);
+          // -----------------------------------------
+          let span1 = document.createElement("p");
+          span1.innerHTML = inputBox.value;
+          span1.id = "itemTitle";
+          li.appendChild(span1);
+          let div2 = document.createElement("div");
+          let span2 = document.createElement("p");
+          div2.id = "itemDescDiv";
+          div2.innerHTML = span2;
+          span2.id = "itemDesc";
+          span2.innerHTML = descBox.value;
+          li.appendChild(span2);
+          let span3 = document.createElement("p");
+          span3.id = "close-btn";
+          span3.innerHTML = "\u00d7";
+          li.appendChild(span3);
+        }
+        clearFields();
+        saveData();
+      }
+
+      listContainer.addEventListener("click", function (e) {
+        if (e.target.id === "close-btn") {
+          e.target.parentElement.remove();
+          saveData();
+        }
+      });
+
+      function saveData() {
+        localStorage.setItem("data", listContainer.innerHTML);
+      }
+
+      function showTask() {
+        listContainer.innerHTML = localStorage.getItem("data");
+      }
+
+      function clearFields() {
+        inputBox.value = "";
+        descBox.value = "";
+      }
+      showTask();
+    </script>
+  </body>
+</html>
